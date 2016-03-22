@@ -1,83 +1,48 @@
-public class Main{
-	class Room{
-		public int id;
-		public Room next;
-		public Room pair;
-		public Room pre;
-	}
-	public static void main(String[] args){
+public class MovingTables{
+	/**
+	* 利用房间号分割走廊，每条“子走廊”都设置一个计数器，每经过一次+1，最大的次数X10就是答案
+	*/
+	public static void movingTables(){
 		Scanner in = new Scanner(System.in);
 		int caseNum = in.nextInt();
 		int[] results = new int[caseNum];
 
 		for(int i = 0; i < caseNum; i++){
 			int lineNum = in.nextInt();
-			Room start = new Room();
-			start.id = 0;
-			start.next = null;
-			start.pair = null;
-			start.pre = null;
+			int[] rooms = new int[400];
 			for(int j = 0; j < lineNum; j++){
-				Room left = new Room();
-				Room right = new Room();
-				left.id = in.nextInt();
-				right.id = in.nextInt();
-				left.pair = right;
-				right.pair = left;
-				insert(start,left);
-				insert(start,right);
-			}
-
-			int result = 0;
-			while(start.next != null){
-				Room cur = start.next;
-				Room pre = start;
-				while(cur != null){
-					Room temp = cur.pair;
-					if(temp.id > cur.id){
-						pre.next = cur.next;
-						cur.next.pre = pre;
-						cur = temp;
-						pre = temp.pre;
-						if(cur.next == null){
-							pre.next = cur.next;
-						}
-						else{
-							pre.next = cur.next;
-							cur.next.pre = pre;
-						}
-					}
-					cur = cur.next;
+				int left = in.nextInt();
+				int right = in.nextInt();
+				if (left > right){
+					int temp;
+					temp = right;
+					right = left;
+					left = temp;
 				}
-				result = result + 10;
+				if(right % 2 != 0){
+					right ++;
+				}
+				for(int k = left - 1; k < right;k ++){
+					rooms[k]++;
+				}
+			}
+			int result = 0;
+			for(int j : rooms){
+				if(result < j){
+					result = j;
+				}
 			}
 
-			results[i] = result;
+			results[i] = result * 10;
 		}
 
 		for(int i : results){
 			System.out.println(i);
 		}
 	}
-
-	private static void insert(Room start,Room newRoom){
-		Room cur = start.next;
-		Room pre = start;
-		while(cur != null){
-			if(newRoom.id > cur.id){
-				pre = cur;
-				cur = cur.next;
-			}
-			else{
-				newRoom.next = pre.next;
-				newRoom.pre = pre;
-				cur.pre = newRoom;
-				pre.next = newRoom;
-				return;
-			}
-		}
-		newRoom.next = pre.next;
-		newRoom.pre = pre;
-		pre.next = newRoom;
+	public static void main(String[] args){
+		
 	}
+
+
 }
