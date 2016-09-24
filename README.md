@@ -1,2 +1,3 @@
-# oj
-记录算法解题代码
+# Online Judge Code
+classified - Classified by algorithm type, like BFS, etc.
+src - Classified by oj website, like leetcode, etc.
